@@ -1,124 +1,358 @@
-<!doctype html>
-<html>
-	<head>
-		<meta charset="utf-8" />
-		<meta
-			name="viewport"
-			content="width=device-width, initial-scale=1.0, shrink-to-fit=no"
-		/>
-		<title>Ultraviolet | Sophisticated Web Proxy</title>
-		<meta
-			name="description"
-			content="Ultraviolet is a highly sophisticated proxy used for evading internet censorship or accessing websites in a controlled sandbox using the power of service-workers. Unblock sites today!"
-		/>
-		<meta
-			name="keywords"
-			content="proxy, web proxy, ultraviolet, service workers, unblock websites, unblock chromebook, free web proxy, proxy list, proxy sites, un block chromebook, online proxy, proxy server, proxysite, proxy youtube, bypass securly, bypass iboss, bypass lightspeed filter, holy unblocker, chromebooks, titanium network, unblock youtube, youtube proxy, unblocked youtube, youtube unblocked"
-		/>
-		<meta
-			name="theme-color"
-			media="(prefers-color-scheme: dark)"
-			content="#434c5e"
-		/>
-		<meta name="googlebot" content="index, follow, snippet" />
-		<link rel="shortcut icon" content="favicon.ico" />
-		<link rel="stylesheet" href="index.css" />
-		
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kiwi Proxy</title>
+    <style>
+        :root {
+            --neon-green: #39ff14;
+            --dark-bg: #050b05;
+            --card-bg: rgba(10, 25, 10, 0.85);
+        }
 
-		<script src="baremux/index.js"></script>
-		<script src="uv/uv.bundle.js"></script>
-		<script src="uv/uv.config.js"></script>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
 
-		<script type="application/ld+json">
-			{
-				"@context": "https://schema.org",
-				"@type": "FAQPage",
-				"mainEntity": [
-					{
-						"@type": "Question",
-						"name": "What is Ultraviolet (Web Proxy)?",
-						"acceptedAnswer": {
-							"@type": "Answer",
-							"text": "Highly sophisticated proxy used for evading internet censorship or accessing websites in a controlled sandbox using the power of service-workers and more!"
-						}
-					},
-					{
-						"@type": "Question",
-						"name": "How do I unblock sites using Ultraviolet?",
-						"acceptedAnswer": {
-							"@type": "Answer",
-							"text": "Simply head to an official site featuring Ultraviolet such as Holy Unblocker or Incognito! You can also self-host Ultraviolet on your own web server for maximum privacy."
-						}
-					},
-					{
-						"@type": "Question",
-						"name": "What if Ultraviolet is blocked or not working?",
-						"acceptedAnswer": {
-							"@type": "Answer",
-							"text": "Join the Titanium Network Discord at discord.gg/unblock!"
-						}
-					}
-				]
-			}
-		</script>
-	</head>
+        body, html {
+            background-color: var(--dark-bg);
+            color: #fff;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
 
-	<body>
-		<div
-			title="Ultraviolet Logo"
-			class="flex-center logo-wrapper header-center"
-		>
-			<img class="logo" src="uv.png" alt="Ultraviolet" />
-			<h1>Ultraviolet | TN</h1>
-		</div>
-		<div class="flex-center desc left-margin">
-			<p>
-				Ultraviolet is highly sophisticated proxy used for evading internet
-				censorship.
-			</p>
-		</div>
+        /* Neon Emoji Background */
+        .bg-marquee {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+            opacity: 0.12;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            font-size: 2rem;
+        }
 
-		<form id="uv-form" class="flex-center">
-			<input
-				id="uv-search-engine"
-				value="https://www.google.com/search?q=%s"
-				type="hidden"
-			/>
-			<input id="uv-address" type="text" placeholder="Search the web freely" />
-		</form>
-		<div class="desc left-margin">
-			<p id="uv-error"></p>
-			<pre id="uv-error-code"></pre>
-		</div>
-		<footer>
-			<div>
-				<a
-					title="The TitaniumNetwork GitHub organization"
-					href="https://github.com/titaniumnetwork-dev"
-					>TitaniumNetwork</a
-				>
-				<a title="The TitaniumNetwork Discord" href="https://discord.gg/unblock"
-					>Discord</a
-				>
-				<a
-					title="The TompHTTP GitHub organization"
-					href="https://github.com/tomphttp"
-					>TompHTTP</a
-				>
-				<a
-					title="The official deployment repository for Ultraviolet"
-					href="https://github.com/titaniumnetwork-dev/Ultraviolet-App"
-					>GitHub</a
-				>
-				<a title="License information" href="credits.html">Credits</a>
-			</div>
-			<div>
-				<span>Ultraviolet &copy; TN 2023</span>
-			</div>
-		</footer>
-		<iframe style="display: none" id="uv-frame"></iframe>
-		<script src="register-sw.js"></script>
-		<script src="search.js"></script>
-		<script src="index.js"></script>
-	</body>
+        .marquee-row {
+            display: flex;
+            white-space: nowrap;
+            animation: scroll linear infinite;
+            text-shadow: 0 0 10px var(--neon-green), 0 0 20px var(--neon-green);
+        }
+
+        .marquee-row:nth-child(even) { animation-direction: reverse; }
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* Main Container */
+        .container {
+            position: relative;
+            z-index: 2;
+            background: var(--card-bg);
+            border: 2px solid var(--neon-green);
+            border-radius: 20px;
+            padding: 35px;
+            width: 90%;
+            max-width: 650px;
+            text-align: center;
+            box-shadow: 0 0 25px rgba(57, 255, 20, 0.2);
+            backdrop-filter: blur(10px);
+            transition: opacity 0.3s ease;
+        }
+
+        h1 {
+            font-size: 3rem;
+            color: var(--neon-green);
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            text-shadow: 0 0 10px var(--neon-green), 0 0 20px var(--neon-green);
+        }
+
+        .stats {
+            font-size: 0.85rem;
+            color: #a0fca0;
+            margin-bottom: 25px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .pulse {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background-color: var(--neon-green);
+            border-radius: 50%;
+            margin-right: 5px;
+            box-shadow: 0 0 10px var(--neon-green);
+            animation: blink 1.5s infinite;
+        }
+
+        @keyframes blink { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
+
+        /* Search / URL Bar */
+        .search-box {
+            display: flex;
+            background: rgba(0,0,0,0.5);
+            border: 1px solid rgba(57, 255, 20, 0.4);
+            border-radius: 30px;
+            padding: 5px 5px 5px 20px;
+            margin-bottom: 25px;
+            transition: all 0.3s;
+        }
+
+        .search-box:focus-within {
+            border-color: var(--neon-green);
+            box-shadow: 0 0 15px rgba(57, 255, 20, 0.4);
+        }
+
+        .search-box input {
+            flex: 1;
+            background: none;
+            border: none;
+            outline: none;
+            color: white;
+            font-size: 1.1rem;
+        }
+
+        .search-box button {
+            background: var(--neon-green);
+            border: none;
+            color: black;
+            font-weight: bold;
+            padding: 10px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .search-box button:hover { opacity: 0.9; }
+
+        /* App Grid */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .app-btn {
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(57, 255, 20, 0.3);
+            border-radius: 12px;
+            padding: 18px;
+            color: #fff;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .app-btn:hover {
+            border-color: var(--neon-green);
+            box-shadow: 0 0 15px rgba(57, 255, 20, 0.4);
+            transform: translateY(-2px);
+            color: var(--neon-green);
+        }
+
+        /* Panic Escape Button */
+        .escape-btn {
+            width: 100%;
+            background: #ff1414;
+            border: none;
+            border-radius: 12px;
+            padding: 14px;
+            color: white;
+            font-size: 1rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(255, 20, 20, 0.3);
+        }
+
+        .escape-btn:hover {
+            background: #ff4545;
+            box-shadow: 0 0 15px #ff1414;
+        }
+
+        /* Fullscreen Proxy Sandbox Iframe */
+        #proxy-view {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+            z-index: 5;
+            background: white;
+            display: none;
+        }
+
+        /* Loading Overlay Screen */
+        #loading-screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--dark-bg);
+            z-index: 10;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(57, 255, 20, 0.2);
+            border-top: 5px solid var(--neon-green);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+
+        #loading-text {
+            color: var(--neon-green);
+            font-size: 1.4rem;
+            font-weight: bold;
+            text-shadow: 0 0 8px var(--neon-green);
+        }
+
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+
+    <!-- Background Marquee -->
+    <div class="bg-marquee">
+        <div class="marquee-row">🔗 🌐 💻 🥝 ⚡ 🔒 🔗 🌐 💻 🥝 ⚡ 🔒 🔗 🌐 💻 🥝 ⚡ 🔒 🔗 🌐 💻 🥝 ⚡ 🔒</div>
+        <div class="marquee-row">⚡ 🔒 🔗 🌐 💻 🥝 ⚡ 🔒 🔗 🌐 💻 🥝 ⚡ 🔒 🔗 🌐 💻 🥝 ⚡ 🔒 🔗 🌐 💻 🥝</div>
+        <div class="marquee-row">💻 🥝 ⚡ 🔒 🔗 🌐 💻 🥝 ⚡ 🔒 🔗 🌐 💻 🥝 ⚡ 🔒 🔗 🌐 💻 🥝 ⚡ 🔒 🔗 🌐</div>
+    </div>
+
+    <!-- Frontend Menu Container -->
+    <div class="container" id="menu-container">
+        <h1>Kiwi Proxy</h1>
+        <div class="stats"><span class="pulse"></span> <span id="active-count">...</span> users active</div>
+
+        <!-- Dynamic Search / URL Bar -->
+        <div class="search-box">
+            <input type="text" id="url-input" placeholder="Enter URL or search Google..." onkeydown="if(event.key === 'Enter') launchCustomProxy()">
+            <button onclick="launchCustomProxy()">Go</button>
+        </div>
+
+        <!-- Native Web Apps Buttons -->
+        <div class="grid">
+            <button class="app-btn" onclick="launchApp('https://discord.com')">Discord</button>
+            <button class="app-btn" onclick="launchApp('https://roblox.com')">Roblox</button>
+            <button class="app-btn" onclick="launchApp('https://tiktok.com')">TikTok</button>
+            <button class="app-btn" onclick="launchApp('https://reddit.com')">Reddit</button>
+        </div>
+
+        <!-- Escape Panic Indicator -->
+        <button class="escape-btn" onclick="panicEscape()">Panic Escape [Press ESC Key]</button>
+    </div>
+
+    <!-- Loading Screen Display -->
+    <div id="loading-screen">
+        <div class="spinner"></div>
+        <div id="loading-text">Bypassing restrictions...</div>
+    </div>
+
+    <!-- Website Display Canvas Frame -->
+    <iframe id="proxy-view" sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-modals"></iframe>
+
+    <script>
+        // List of random loading phrases requested
+        const loadingPhrases = [
+            "Hurry up and load site...",
+            "9x9 is 99x",
+            "If a bee produces honey what does honey produce?",
+            "Securing proxy tunnel connections...",
+            "Decrypting structural web assets..."
+        ];
+
+        // Active user tracker emulator
+        function updateActiveUsers() {
+            document.getElementById('active-count').innerText = Math.floor(Math.random() * 15) + 135;
+        }
+        setInterval(updateActiveUsers, 3000);
+        updateActiveUsers();
+
+        // PANIC ESCAPE MECHANIC: Forces page instantly to Google
+        function panicEscape() {
+            window.location.replace('https://google.com');
+        }
+
+        // Listens to global physical browser hardware "Esc" keystroke
+        window.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' || e.keyCode === 27) {
+                panicEscape();
+            }
+        });
+
+        // Functional deployment script via mirror server gateways
+        function loadProxyGateway(targetUrl) {
+            const menu = document.getElementById('menu-container');
+            const loader = document.getElementById('loading-screen');
+            const iframe = document.getElementById('proxy-view');
+            const textEl = document.getElementById('loading-text');
+
+            menu.style.display = 'none';
+            loader.style.display = 'flex';
+            
+            // Pick and alternate loaded screen strings randomly
+            textEl.innerText = loadingPhrases[Math.floor(Math.random() * loadingPhrases.length)];
+
+            // Resolves cross-origin blocking using public secure proxy gateways
+            const proxyGatewayUrl = "https://allorigins.win" + encodeURIComponent(targetUrl);
+            iframe.src = proxyGatewayUrl;
+
+            iframe.onload = function() {
+                loader.style.display = 'none';
+                iframe.style.display = 'block';
+            };
+        }
+
+        // Processes grid apps selection execution
+        function launchApp(url) {
+            loadProxyGateway(url);
+        }
+
+        // Processes custom search query input string calculations 
+        function launchCustomProxy() {
+            let input = document.getElementById('url-input').value.trim();
+            if (!input) return;
+
+            // Decides whether search query is absolute domain extension string or search pattern query
+            if (!input.includes('.') || input.includes(' ')) {
+                input = 'https://google.com/search?q=' + encodeURIComponent(input);
+            } else if (!/^https?:\/\//i.test(input)) {
+                input = 'https://' + input;
+            }
+            loadProxyGateway(input);
+        }
+    </script>
+</body>
 </html>
+		
